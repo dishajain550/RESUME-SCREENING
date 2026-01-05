@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AI Resume Screening Platform</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<!-- Dark / Light Mode Toggle -->
+<input type="checkbox" id="theme-toggle">
+<label for="theme-toggle" class="theme-switch">🌙 / ☀️</label>
+
+<!-- Background Blobs -->
+<div class="bg-blobs">
+  <span></span>
+  <span></span>
+  <span></span>
+</div>
+
+<!-- Hero Section -->
+<header class="hero">
+  <nav class="navbar">
+    <div class="logo">
+  <span class="logo-text">ResumeX AI</span>
+  <span class="logo-tagline">Intelligent Resume Analysis</span>
+</div>
+    
+  </nav>
+
+  <div class="hero-content">
+    <h1>
+      Smart Resume Screening <br>
+      with <span>Artificial Intelligence</span>
+    </h1>
+    <p>
+An intelligent hiring assistant that analyzes resumes, career progression,
+and job requirements to deliver accurate candidate–job matching using
+state-of-the-art deep learning models.
+</p>
+
+  </div>
+</header>
+
+<!-- About -->
+<section class="info-section">
+  <h2>About the Platform</h2>
+  <p>
+The platform leverages natural language processing and deep learning
+to understand candidate resumes beyond keywords. By evaluating skills,
+experience patterns, and job requirements, it provides an unbiased and
+data-driven screening process that supports faster and smarter hiring
+decisions.
+</p>
+
+</section>
+
+<!-- Features -->
+<section class="features">
+  <div class="feature-card">📄 Resume Analysis</div>
+  <div class="feature-card">📈 Career Evaluation</div>
+  <div class="feature-card">🎯 Job Match Scoring</div>
+  <div class="feature-card">⚡ Automated Screening</div>
+</section>
+
+<!-- Main App -->
+<main class="app-container">
+
+  <section class="card skeleton">
+    <h3>Resume Content</h3>
+    <textarea placeholder="Paste resume text here..."></textarea>
+  </section>
+
+  <section class="card skeleton">
+    <h3>Career History</h3>
+    <textarea placeholder="Enter career progression..."></textarea>
+  </section>
+
+  <section class="card skeleton">
+    <h3>Job Description</h3>
+    <textarea placeholder="Paste job requirements here..."></textarea>
+  </section>
+
+  <button class="analyze-btn">
+    Analyze Resume
+    <span></span>
+  </button>
+
+  <section class="result-card">
+    <div class="score-circle">
+      <span>92%</span>
+    </div>
+    <h2>Good Fit</h2>
+    <p>Candidate matches most required skills.</p>
+  </section>
+
+</main>
+
+<footer>
+  <p>© 2026 AI Resume Screening System • Award-Level UI</p>
+</footer>
+<script>
+document.querySelector(".analyze-btn").addEventListener("click", async () => {
+  const resume = document.querySelectorAll("textarea")[0].value;
+  const career = document.querySelectorAll("textarea")[1].value;
+  const job = document.querySelectorAll("textarea")[2].value;
+
+  const res = await fetch("/analyze", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      resume: resume,
+      career: career,
+      job: job
+    })
+  });
+
+  const data = await res.json();
+
+  document.querySelector(".score-circle span").innerText =
+    data.score + "%";
+  document.querySelector(".result-card h2").innerText =
+    data.verdict;
+});
+</script>
+
+</body>
+</html>
